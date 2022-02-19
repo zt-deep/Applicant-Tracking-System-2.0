@@ -1,33 +1,23 @@
-import React from 'react';
-import './App.css';
-import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
-import JobList from './pages/Jobs/Jobs';
-import store from './redux';
-import JobDetailsComponent from './pages/Jobs/JobDetails';
+import { createTheme, alpha } from '@mui/material/styles';
 
-const secondaryColor = 'rgba(51, 90, 255, 1)';
-const customTheme = createTheme({
+let secondaryColor = '#335aff';
+// const secondaryColor = "#FFBE00";
+export const updateSecondaryColor = (color = '#335aff') => {
+  secondaryColor = color;
+};
+const AccountTheme = createTheme({
   components: {
-    MuiAvatarGroup: {
-      styleOverrides: {
-        avatar: {
-          width: 'inherit',
-          height: 'inherit',
-          fontSize: 'inherit',
-        },
-        root: {
-          width: 'inherit',
-          height: 'inherit',
-          fontSize: 'inherit',
-        },
-      },
-    },
     MuiAccordion: {
       styleOverrides: {
         root: {
           boxShadow: 'none',
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: '1px solid #e0e0e0',
         },
       },
     },
@@ -38,20 +28,12 @@ const customTheme = createTheme({
         },
       },
     },
-    MuiFormControlLabel: {
-      styleOverrides: {
-        root: {
-          margin: 0,
-        },
-      },
-    },
     MuiListItem: {
       styleOverrides: {
         root: {
           '&:hover': {
-            backgroundColor: 'rgba(51, 90, 255, 0.05)',
-            // backgroundColor: alpha(secondaryColor, 0.05),
-            color: 'inherit',
+            backgroundColor: alpha(secondaryColor, 0.05),
+            color: secondaryColor,
           },
         },
       },
@@ -84,10 +66,10 @@ const customTheme = createTheme({
         },
       },
     },
+
     MuiFormControl: {
       styleOverrides: {
         root: {
-          letterSpacing: 0,
           '&:foucs .MuiInputLabel-root': {
             color: `${secondaryColor} !important`,
           },
@@ -98,7 +80,13 @@ const customTheme = createTheme({
       styleOverrides: {
         root: {
           color: '#BDBDBD',
-          letterSpacing: 0,
+        },
+      },
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          borderColor: '#EBECF0',
         },
       },
     },
@@ -106,8 +94,6 @@ const customTheme = createTheme({
       styleOverrides: {
         root: {
           minHeight: 50,
-          letterSpacing: 0,
-          // paddingLeft: 14,
           '&:hover .MuiInputLabel-root': {
             color: '#172B4D',
           },
@@ -118,12 +104,16 @@ const customTheme = createTheme({
       },
     },
     MuiButton: {
+      styleOverrides: {
+        root: {
+          height: 35,
+        },
+      },
       variants: [
         {
           props: { variant: 'outlined' },
           style: {
             borderColor: '#EBECF0',
-            height: 35,
           },
         },
         {
@@ -134,9 +124,9 @@ const customTheme = createTheme({
           },
         },
         {
-          props: { variant: 'text', color: 'secondary' },
+          props: { variant: 'contained', color: 'secondary' },
           style: {
-            backgroundColor: alpha(secondaryColor, 0.05),
+            color: '#fff !important',
             height: 35,
           },
         },
@@ -152,11 +142,6 @@ const customTheme = createTheme({
           },
         },
       ],
-      styleOverrides: {
-        root: {
-          height: 35,
-        },
-      },
     },
     MuiTabs: {
       styleOverrides: {
@@ -170,24 +155,16 @@ const customTheme = createTheme({
         root: {
           height: 60,
         },
-        labelIcon: {
-          fontFamily: "'Poppins', sans-serif",
-          fontWeight: 500,
-          fontSize: '0.875rem',
-          lineHeight: 1.125,
-          color: '#172B4D',
-          letterSpacing: 0,
-        },
       },
     },
   },
-  spacing: (factor) => factor * 10,
+  spacing: (factor) => `${factor * 10}px`,
   palette: {
     primary: {
       main: '#172B4D',
     },
     secondary: {
-      main: secondaryColor,
+      main: '#335aff',
     },
     background: {
       default: '#fff',
@@ -195,14 +172,11 @@ const customTheme = createTheme({
     info: {
       main: '#EBECF0',
     },
-    success: {
-      main: '#00CD37',
-    },
     text: {
       primary: '#172B4D',
-      secondary: secondaryColor,
+      secondary: '#335aff',
     },
-    divider: '#EBECF0',
+    divider: '#F0F0F0',
     action: {
       disabledBackground: alpha(secondaryColor, 0.5),
     },
@@ -220,14 +194,15 @@ const customTheme = createTheme({
       fontFamily: "'Poppins', sans-serif",
       fontWeight: 'bold',
       fontSize: '1.25rem',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       color: '#172B4D',
+      letterSpacing: 0,
     },
     subtitle2: {
       fontFamily: "'Poppins', sans-serif",
       fontWeight: 400,
       fontSize: '1rem',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       color: '#172B4D',
       letterSpacing: 0,
     },
@@ -235,7 +210,7 @@ const customTheme = createTheme({
       fontFamily: "'Poppins', sans-serif",
       fontWeight: 500,
       fontSize: '0.875rem',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       color: '#172B4D',
       letterSpacing: 0,
     },
@@ -244,14 +219,15 @@ const customTheme = createTheme({
       fontWeight: 600,
       fontSize: '1.25rem',
       color: '#172B4D',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       letterSpacing: 0,
     },
     h5: {
       fontFamily: "'Roboto', sans-serif",
       fontWeight: 400,
       fontSize: '0.6875rem',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
+
       color: '#828282',
       opacity: 0.8,
       letterSpacing: 0,
@@ -260,14 +236,15 @@ const customTheme = createTheme({
       fontFamily: "'Roboto', sans-serif",
       fontWeight: 500,
       fontSize: '0.875rem',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       color: '#172B4D',
+      letterSpacing: 0,
     },
     body1: {
       fontFamily: "'Roboto', sans-serif",
       fontWeight: 400,
       fontSize: '0.875rem',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       color: '#172B4D',
       letterSpacing: 0,
     },
@@ -275,7 +252,7 @@ const customTheme = createTheme({
       fontFamily: "'Poppins', sans-serif",
       fontWeight: 600,
       fontSize: '1rem',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       color: '#172B4D',
       letterSpacing: 0,
     },
@@ -283,7 +260,7 @@ const customTheme = createTheme({
       fontFamily: "'Roboto', sans-serif",
       fontWeight: 500,
       fontSize: '0.875rem',
-      lineHeight: 1.125,
+      lineHeight: 1.5,
       color: '#757575',
       letterSpacing: 0,
     },
@@ -291,29 +268,11 @@ const customTheme = createTheme({
       fontFamily: "'Roboto', sans-serif",
       fontWeight: 500,
       fontSize: '0.875rem',
-      lineHeight: 1.125,
-      color: '#fff',
-      textTransform: 'capitalize',
+      lineHeight: 1.5,
       letterSpacing: 0,
+      textTransform: 'capitalize',
     },
     pxToRem: (size) => `${size / 16}rem`,
   },
 });
-
-function App() {
-  return (
-    <ThemeProvider theme={customTheme}>
-      <Provider store={store}>
-        <BrowserRouter>
-          {/* <Route exact path="/" component={userLogin} /> */}
-          <Switch>
-            <Route exact path="/jobs" component={JobList} />
-            <Route exact path="/job/:jobId" component={JobDetailsComponent} />
-          </Switch>
-        </BrowserRouter>
-      </Provider>
-    </ThemeProvider>
-  );
-}
-
-export default App;
+export default AccountTheme;
