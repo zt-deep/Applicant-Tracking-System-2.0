@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import appConstant from '../../../constants/appConstants';
+import { appConstant } from '../../../constants/appConstants';
 
 const getJobListData = async (payload) => {
   try {

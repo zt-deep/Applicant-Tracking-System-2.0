@@ -4,4 +4,13 @@ const appConstant = {
   localStorageSecretKey: '@#Hrms$&^V2&%*',
 };
 
-export default appConstant;
+const JOB_ACTION = [
+  { menuId: '1', menuName: 'Remove from this job' },
+  { menuId: '2', menuName: 'Mark as withdraw' },
+  { menuId: '3', menuName: 'Reject' },
+  { menuId: '4', menuName: 'Messages' },
+  { menuId: '5', menuName: 'Add to another job' },
+  { menuId: '6', menuName: 'Hold' },
+];
+
+export { appConstant, JOB_ACTION };

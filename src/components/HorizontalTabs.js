@@ -5,7 +5,10 @@ import { Tab, Tabs } from '@mui/material';
 function HorizontalTabs(props) {
   const { defaultTab, allowedTabs, onchange } = props;
   const tabsList = allowedTabs.map((tab) => (
-    <Tab key={tab} label={tab} value={tab} />
+    <Tab
+      key={tab}
+      label={tab?.split('_').join(' ')}
+    />
   ));
   return (
     <Tabs value={defaultTab} onChange={onchange}>

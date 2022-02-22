@@ -8,7 +8,7 @@ function JobCandidateCountStatusComponent({
 }) {
   return (
     <Box>
-      <Link to={`/job/${jobId}/status/${statusId}`}>
+      <Link to={`/job/${jobId}/status/${statusId}`} style={{textDecoration: 'none'}}>
         <Typography variant="body1">{name.split('_').join(' ')}</Typography>
       </Link>
       <Typography variant="h6" className="numberjobs">

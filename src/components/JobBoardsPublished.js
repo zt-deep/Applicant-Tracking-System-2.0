@@ -31,7 +31,7 @@ function JobBoardsPublishedComponent({ jobBoards }) {
           return (
             <Avatar
               key={name}
-              alt={name.toLowerCase()}
+              alt={name}
               src={image}
               style={{
                 width: 24,

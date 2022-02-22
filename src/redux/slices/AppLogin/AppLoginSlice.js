@@ -2,7 +2,7 @@
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import appConstant from '../../../constants/appConstants';
+import { appConstant } from '../../../constants/appConstants';
 
 const initialState = {
   status: '',

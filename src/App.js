@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import JobList from './pages/Jobs/Jobs';
 import store from './redux';
-import JobDetailsComponent from './pages/Jobs/JobDetails';
+import JobDetailsComponent from './pages/Jobs/JobDetails/JobDetailsComponent';
 
 const secondaryColor = 'rgba(51, 90, 255, 1)';
 const customTheme = createTheme({

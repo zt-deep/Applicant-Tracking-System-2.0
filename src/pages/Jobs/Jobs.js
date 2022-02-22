@@ -20,7 +20,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomDropDown from '../../components/CustomDropDown';
 import SearchComponent from '../../components/SearchComponent';
-import getJobList from '../../redux/slices/JobList/JobListReducers';
+import { getJobList } from '../../redux/slices/JobList/JobListReducers';
 import JobCandidateCountStatusComponent from '../../components/JobCountComponent';
 import JobBoardsPublishedComponent from '../../components/JobBoardsPublished';
 
@@ -48,7 +48,6 @@ function Alljobs() {
   };
 
   const handleChangePage = (event, value) => {
-    console.log(value);
     setPage(value);
   };
   const handleChangeRowsPerPage = (event) => {
@@ -59,11 +58,12 @@ function Alljobs() {
     setSearchQuery(event.target.value);
   };
 
+  console.log(jobList);
   const renderJobList = jobList.map((job) => {
     const {
       countStatus, JOB_ID, JOB_TITLE, FULL_NAME, OPEN_TILL_DATE, UNIQUE_JOB_ID, NO_OF_POSITION,
     } = job;
-    const hiredCount = countStatus.Hired.count;
+    const hiredCount = countStatus?.Hired?.count;
     const jobCountHtml = Object.keys(countStatus).map((key) => {
       const { id, name, count } = countStatus[key];
       return (
