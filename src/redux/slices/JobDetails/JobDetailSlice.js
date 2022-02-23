@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchCandidatesByJobId, fetchCandidateStatusCount, fetchJobDetailsById } from './JobDetailsReducer';
+import { fetchCandidatesByJobId, fetchCandidateStatusCount, fetchJobActiveStepDetails, fetchJobDetailsById, fetchJobHistoryDetails } from './JobDetailsReducer';
 
 const initialState = {
   statusCount: {},
   jobDetails: {},
+  jobHistory: [],
   candidateDetails: [],
   hiringTeam: [],
-  hiringSteps: [],
+  hiringActiveSteps: [],
 };
 const jobDetailsSlice = createSlice({
   name: 'jobDetails',
@@ -25,6 +26,14 @@ const jobDetailsSlice = createSlice({
     [fetchCandidatesByJobId.fulfilled]: (state, {payload}) => {
       console.log(payload);
       state.candidateDetails = payload;
+    },
+    [fetchJobActiveStepDetails.fulfilled]: (state, {payload}) => {
+      console.log(payload);
+      state.hiringActiveSteps = payload;
+    },
+    [fetchJobHistoryDetails.fulfilled]: (state, {payload}) => {
+      console.log(payload);
+      state.jobHistory = payload;
     }
   },
 });

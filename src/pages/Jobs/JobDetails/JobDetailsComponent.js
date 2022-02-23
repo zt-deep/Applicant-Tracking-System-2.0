@@ -129,13 +129,13 @@ function JobDetailsComponent() {
           <TimelineComponent jobId={jobId} />
         </TabPanel>
         <TabPanel value={currentTab} index={2}>
-          <DetailsComponent jobId={jobId} />
-        </TabPanel>
-        <TabPanel value={currentTab} index={3}>
           <HiringProcessComponent jobId={jobId} />
         </TabPanel>
-        <TabPanel value={currentTab} index={4}>
+        <TabPanel value={currentTab} index={3}>
           <SourceComponent jobId={jobId} />
+        </TabPanel>
+        <TabPanel value={currentTab} index={4}>
+          <DetailsComponent jobId={jobId} />
         </TabPanel>
       </TabsUnstyled>
     </Box>

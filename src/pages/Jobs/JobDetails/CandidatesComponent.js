@@ -30,9 +30,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { useDispatch, useSelector } from 'react-redux';
 import SearchComponent from '../../../components/SearchComponent';
 import CustomDropDown from '../../../components/CustomDropDown';
-import FitlerDrawer from '../../../components/FitlerDrawer';
+import FitlerDrawer from '../../../components/FilterDrawer';
 import { JOB_ACTION } from '../../../constants/appConstants';
-import { fetchCandidatesByJobId } from '../../../redux/slices/JobDetails/JobDetailsReducer';
+import { fetchCandidatesByJobId, fetchJobActiveStepDetails } from '../../../redux/slices/JobDetails/JobDetailsReducer';
 
 const useStyles = makeStyles({
   table: {
@@ -43,8 +43,30 @@ const useStyles = makeStyles({
   },
 });
 
-function Jobcandidates(props) {
-  console.log(props);
+const getMovableSteps = (currentStep = 0, allActiveSteps = []) => {
+  const movableSteps = [];
+  const lastIndex = allActiveSteps.length;
+  const currentStepIndex = allActiveSteps.findIndex((data) => data.ID === currentStep);
+  if (currentStepIndex + 1 < lastIndex) {
+    const { ID, PROCESS_NAME } = allActiveSteps[currentStepIndex + 1];
+    movableSteps.push({ ID, name: `Move forward to ${PROCESS_NAME}` });
+  }
+  if (currentStepIndex + 2 < lastIndex) {
+    const { ID, PROCESS_NAME } = allActiveSteps[currentStepIndex + 2];
+    movableSteps.push({ ID, name: `Move forward to ${PROCESS_NAME}` });
+  }
+  if (currentStepIndex - 1 >= 0) {
+    const { ID, PROCESS_NAME } = allActiveSteps[currentStepIndex-1];
+    movableSteps.push({ ID, name: `Move Back to ${PROCESS_NAME}` });
+  }
+  if (currentStepIndex - 2 >= 0) {
+    const { ID, PROCESS_NAME } = allActiveSteps[currentStepIndex-2];
+    movableSteps.push({ ID, name: `Move Back to ${PROCESS_NAME}` });
+  }
+  return movableSteps;
+};
+
+function JobCandidates(props) {
   const { jobId } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -86,13 +108,16 @@ function Jobcandidates(props) {
 
   useEffect(() => {
     dispatch(fetchCandidatesByJobId({ jobId }));
+    dispatch(fetchJobActiveStepDetails({ jobId }));
   }, [jobId]);
 
   const candidateDetails = useSelector((state) => state.jobDetails.candidateDetails);
+  const activeHiringSteps = useSelector((state) => state.jobDetails.hiringActiveSteps);
   const renderCandidates = () => _.map(candidateDetails, (value) => {
     const {
-      FIRST_NAME, LAST_NAME, HIGHER_NAME, EMAIL, MOBILE, CREATED_AT, UPDATED_AT,
+      FIRST_NAME, LAST_NAME, HIGHER_NAME, EMAIL, MOBILE, CREATED_AT, UPDATED_AT, PROCESS_NAME, STEP
     } = value;
+
     return (
       <TableRow className="bordernewcollumn">
         <TableCell>
@@ -120,7 +145,7 @@ function Jobcandidates(props) {
           {CREATED_AT}
         </TableCell>
         <TableCell className="tablebody-14-roboto border-bottom-tab">
-          Interview 1
+          {PROCESS_NAME || 'New'}
         </TableCell>
         <TableCell className="tablebody-14-roboto border-bottom-tab">
           {UPDATED_AT}
@@ -134,7 +159,7 @@ function Jobcandidates(props) {
                 setInitialMount(false);
                 setSelectByStatus(item);
               }}
-              menuItem={['Move to Manager', 'Move to Refrence Check']}
+              menuItem={getMovableSteps(STEP, activeHiringSteps)}
             />
           </Box>
         </TableCell>
@@ -272,8 +297,8 @@ function Jobcandidates(props) {
   );
 }
 
-Jobcandidates.propTypes = {
+JobCandidates.propTypes = {
   jobId: PropTypes.string.isRequired,
 };
 
-export default Jobcandidates;
+export default JobCandidates;

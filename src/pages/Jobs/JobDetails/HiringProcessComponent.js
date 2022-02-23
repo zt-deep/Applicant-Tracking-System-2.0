@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
 import {
   Link,
@@ -495,7 +496,7 @@ function HiringProccess() {
                               </Box>
                             </Scrollbars>
 
-                            <Link
+                            <Button
                               component="button"
                               variant="body2"
                               onClick={() => {
@@ -503,7 +504,7 @@ function HiringProccess() {
                               }}
                             >
                               Button Link
-                            </Link>
+                            </Button>
                           </Paper>
                         </Fade>
                       )}

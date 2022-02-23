@@ -57,22 +57,25 @@ function CustomDropDown(props) {
         //   onClose={() => setOpenPopover(false)}
       >
         <List className="list-popover">
-          {menuItem.map((item, index) => (
-            <ListItem
-              key={index}
-              value={item}
-              onClick={() => {
-                updateMenu(item, index);
-                setOpenPopover(false);
-              }}
-              variant="menu"
-              className="list-item flex-start-center"
-            >
-              <Typography variant="h6" sx={{ color: 'inherit' }}>
-                {item}
-              </Typography>
-            </ListItem>
-          ))}
+          {menuItem.map((item, index) => {
+            const { id, name } = item;
+            return (
+              <ListItem
+                key={id}
+                value={id}
+                onClick={() => {
+                  updateMenu(item, index);
+                  setOpenPopover(false);
+                }}
+                variant="menu"
+                className="list-item flex-start-center"
+              >
+                <Typography variant="h6" sx={{ color: 'inherit' }}>
+                  {name}
+                </Typography>
+              </ListItem>
+            );
+          })}
         </List>
       </Popover>
     </Box>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
 import {
   Typography,
@@ -16,7 +17,9 @@ import {
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Scrollbars from 'react-custom-scrollbars';
-import FitlerDrawer from '../../../components/FitlerDrawer';
+import { useDispatch, useSelector } from 'react-redux';
+import FilterDrawer from '../../../components/FilterDrawer';
+import { fetchJobHistoryDetails } from '../../../redux/slices/JobDetails/JobDetailsReducer';
 
 const useStyles = makeStyles({
   table: {
@@ -27,11 +30,13 @@ const useStyles = makeStyles({
   },
 });
 
-function TimelineJob() {
+function TimelineJob(props) {
+  const { jobId } = props;
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [filter, setfilter] = useState({});
   const [openDrawer, setopenDrawer] = useState(false);
-  const [openFitlerDrawer, setOpenFilterDrawer] = useState(false);
+  const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -43,6 +48,12 @@ function TimelineJob() {
 
   const [initialMount, setInitialMount] = useState(true);
   const [selectByStatus, setSelectByStatus] = useState('Select Next Steps');
+
+  const jobHistoryDetails = useSelector((state) => state.jobDetails.jobHistory);
+
+  useEffect(() => {
+    dispatch(fetchJobHistoryDetails({ JOB_ID: jobId }));
+  }, []);
 
   return (
     <Box className="wh-100 flex-center-start">
@@ -92,50 +103,55 @@ function TimelineJob() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow className="bordernewcollumn">
-                    <TableCell className="tablebody-14-roboto border-bottom-tab">
-                      Nov 06, 2020, 11:22 AM
-                    </TableCell>
-                    <TableCell>
-                      <ListItem
-                        alignItems="flex-start"
-                        style={{ padding: 0 }}
-                      >
-                        <ListItemAvatar>
-                          <Avatar alt="Travis Howard" src="/img/bitmap.png" />
-                        </ListItemAvatar>
-                        <ListItemText>
-                          <Typography
-                            variant="h6"
-                            style={{ fontSize: '16px', marginBottom: 6 }}
+                  {
+                    jobHistoryDetails.map(({
+                      CANDIDATE_NAME, CANDIDATE_EMAIL, MESSAGE, ACTION_BY, CREATED_AT,
+                    }) => (
+                      <TableRow className="bordernewcollumn">
+                        <TableCell className="tablebody-14-roboto border-bottom-tab">
+                          {CREATED_AT}
+                        </TableCell>
+                        <TableCell>
+                          <ListItem
+                            alignItems="flex-start"
+                            style={{ padding: 0 }}
                           >
-                            {' '}
-                            Sahud Khan
-                          </Typography>
-                          <Typography variant="body1">
-                            khansahud@gmail.com
-                          </Typography>
-                        </ListItemText>
-                      </ListItem>
-                    </TableCell>
-                    <TableCell className="tablebody-14-roboto border-bottom-tab">
-                      Candidate moved to interview 1 from Resume
-                    </TableCell>
-                    <TableCell className="tablebody-14-roboto border-bottom-tab">
-                      Bessie Cooper
-                    </TableCell>
-                  </TableRow>
+                            <ListItemAvatar>
+                              <Avatar alt="Travis Howard" src="/img/bitmap.png" />
+                            </ListItemAvatar>
+                            <ListItemText>
+                              <Typography
+                                variant="h6"
+                                style={{ fontSize: '16px', marginBottom: 6 }}
+                              >
+                                {CANDIDATE_NAME}
+                              </Typography>
+                              <Typography variant="body1">
+                                {CANDIDATE_EMAIL}
+                              </Typography>
+                            </ListItemText>
+                          </ListItem>
+                        </TableCell>
+                        <TableCell className="tablebody-14-roboto border-bottom-tab">
+                          {MESSAGE}
+                        </TableCell>
+                        <TableCell className="tablebody-14-roboto border-bottom-tab">
+                          {ACTION_BY}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  }
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbars>
         </Box>
       </Box>
-      {openFitlerDrawer ? (
-        <FitlerDrawer
+      {openFilterDrawer ? (
+        <FilterDrawer
           width="260px"
             // style={{ width: "250px !important" }}
-          openFilter={openFitlerDrawer}
+          openFilter={openFilterDrawer}
           closeFilter={(e) => {
             e.preventDefault();
             setOpenFilterDrawer(false);
@@ -148,5 +164,9 @@ function TimelineJob() {
     </Box>
   );
 }
+
+TimelineJob.propTypes = {
+  jobId: PropTypes.string.isRequired,
+};
 
 export default TimelineJob;

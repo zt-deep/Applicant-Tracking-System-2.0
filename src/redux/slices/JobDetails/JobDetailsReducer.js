@@ -34,8 +34,25 @@ const fetchJobDetailsById = createAsyncThunk(
   },
 );
 
+const fetchJobActiveStepDetails = createAsyncThunk('jobs/activeSteps', async (payload) => {
+  const response = await axios.get(
+    `${appConstant.url}/hire/active/${payload.jobId}`,
+  );
+  return response.data.data;
+});
+
+const fetchJobHistoryDetails = createAsyncThunk('jobs/history', async (payload) => {
+  const { data } = await axios.post(
+    `${appConstant.url}/jobs/history`,
+    payload,
+  );
+  return data.data;
+});
+
 export {
   fetchCandidateStatusCount,
   fetchCandidatesByJobId,
   fetchJobDetailsById,
+  fetchJobActiveStepDetails,
+  fetchJobHistoryDetails
 };
